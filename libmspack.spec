@@ -4,7 +4,7 @@
 #
 Name     : libmspack
 Version  : 0.5alpha
-Release  : 2
+Release  : 3
 URL      : https://www.cabextract.org.uk/libmspack/libmspack-0.5alpha.tar.gz
 Source0  : https://www.cabextract.org.uk/libmspack/libmspack-0.5alpha.tar.gz
 Summary  : Compressors and decompressors for Microsoft formats
