@@ -4,16 +4,17 @@
 #
 Name     : libmspack
 Version  : 0.6alpha
-Release  : 7
+Release  : 8
 URL      : https://www.cabextract.org.uk/libmspack/libmspack-0.6alpha.tar.gz
 Source0  : https://www.cabextract.org.uk/libmspack/libmspack-0.6alpha.tar.gz
 Summary  : Compressors and decompressors for Microsoft formats
 Group    : Development/Tools
 License  : LGPL-2.1
-Requires: libmspack-bin
-Requires: libmspack-lib
-Requires: libmspack-license
+Requires: libmspack-bin = %{version}-%{release}
+Requires: libmspack-lib = %{version}-%{release}
+Requires: libmspack-license = %{version}-%{release}
 Patch1: cve-2018-14679.patch
+Patch2: CVE-2018-18584.patch
 
 %description
 libmspack 0.6alpha
@@ -25,7 +26,7 @@ stable, robust and resource-efficient.
 %package bin
 Summary: bin components for the libmspack package.
 Group: Binaries
-Requires: libmspack-license
+Requires: libmspack-license = %{version}-%{release}
 
 %description bin
 bin components for the libmspack package.
@@ -34,9 +35,9 @@ bin components for the libmspack package.
 %package dev
 Summary: dev components for the libmspack package.
 Group: Development
-Requires: libmspack-lib
-Requires: libmspack-bin
-Provides: libmspack-devel
+Requires: libmspack-lib = %{version}-%{release}
+Requires: libmspack-bin = %{version}-%{release}
+Provides: libmspack-devel = %{version}-%{release}
 
 %description dev
 dev components for the libmspack package.
@@ -45,7 +46,7 @@ dev components for the libmspack package.
 %package lib
 Summary: lib components for the libmspack package.
 Group: Libraries
-Requires: libmspack-license
+Requires: libmspack-license = %{version}-%{release}
 
 %description lib
 lib components for the libmspack package.
@@ -62,13 +63,14 @@ license components for the libmspack package.
 %prep
 %setup -q -n libmspack-0.6alpha
 %patch1 -p1
+%patch2 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1533224308
+export SOURCE_DATE_EPOCH=1542042132
 export CFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
 export FCFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
 export FFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
@@ -84,10 +86,10 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1533224308
+export SOURCE_DATE_EPOCH=1542042132
 rm -rf %{buildroot}
-mkdir -p %{buildroot}/usr/share/doc/libmspack
-cp COPYING.LIB %{buildroot}/usr/share/doc/libmspack/COPYING.LIB
+mkdir -p %{buildroot}/usr/share/package-licenses/libmspack
+cp COPYING.LIB %{buildroot}/usr/share/package-licenses/libmspack/COPYING.LIB
 %make_install
 
 %files
@@ -112,5 +114,5 @@ cp COPYING.LIB %{buildroot}/usr/share/doc/libmspack/COPYING.LIB
 /usr/lib64/libmspack.so.0.1.0
 
 %files license
-%defattr(-,root,root,-)
-/usr/share/doc/libmspack/COPYING.LIB
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/libmspack/COPYING.LIB
