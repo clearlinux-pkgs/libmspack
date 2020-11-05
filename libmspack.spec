@@ -4,7 +4,7 @@
 #
 Name     : libmspack
 Version  : 0.10.1alpha
-Release  : 10
+Release  : 11
 URL      : https://www.cabextract.org.uk/libmspack/libmspack-0.10.1alpha.tar.gz
 Source0  : https://www.cabextract.org.uk/libmspack/libmspack-0.10.1alpha.tar.gz
 Summary  : Compressors and decompressors for Microsoft formats
@@ -25,6 +25,7 @@ Summary: dev components for the libmspack package.
 Group: Development
 Requires: libmspack-lib = %{version}-%{release}
 Provides: libmspack-devel = %{version}-%{release}
+Requires: libmspack = %{version}-%{release}
 
 %description dev
 dev components for the libmspack package.
@@ -49,33 +50,34 @@ license components for the libmspack package.
 
 %prep
 %setup -q -n libmspack-0.10.1alpha
+cd %{_builddir}/libmspack-0.10.1alpha
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
-export SOURCE_DATE_EPOCH=1554478549
-export LDFLAGS="${LDFLAGS} -fno-lto"
-export CFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
-export FCFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
-export FFLAGS="$CFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
-export CXXFLAGS="$CXXFLAGS -fstack-protector-strong -mzero-caller-saved-regs=used "
+export LANG=C.UTF-8
+export SOURCE_DATE_EPOCH=1604610977
+export GCC_IGNORE_WERROR=1
+export CFLAGS="$CFLAGS -fno-lto -fstack-protector-strong -mzero-caller-saved-regs=used "
+export FCFLAGS="$FFLAGS -fno-lto -fstack-protector-strong -mzero-caller-saved-regs=used "
+export FFLAGS="$FFLAGS -fno-lto -fstack-protector-strong -mzero-caller-saved-regs=used "
+export CXXFLAGS="$CXXFLAGS -fno-lto -fstack-protector-strong -mzero-caller-saved-regs=used "
 %configure --disable-static
 make  %{?_smp_mflags}
 
 %check
-export LANG=C
+export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-make VERBOSE=1 V=1 %{?_smp_mflags} check
+make %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1554478549
+export SOURCE_DATE_EPOCH=1604610977
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/libmspack
-cp COPYING.LIB %{buildroot}/usr/share/package-licenses/libmspack/COPYING.LIB
+cp %{_builddir}/libmspack-0.10.1alpha/COPYING.LIB %{buildroot}/usr/share/package-licenses/libmspack/e60c2e780886f95df9c9ee36992b8edabec00bcc
 %make_install
 
 %files
@@ -83,7 +85,7 @@ cp COPYING.LIB %{buildroot}/usr/share/package-licenses/libmspack/COPYING.LIB
 
 %files dev
 %defattr(-,root,root,-)
-/usr/include/*.h
+/usr/include/mspack.h
 /usr/lib64/libmspack.so
 /usr/lib64/pkgconfig/libmspack.pc
 
@@ -94,4 +96,4 @@ cp COPYING.LIB %{buildroot}/usr/share/package-licenses/libmspack/COPYING.LIB
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/libmspack/COPYING.LIB
+/usr/share/package-licenses/libmspack/e60c2e780886f95df9c9ee36992b8edabec00bcc
