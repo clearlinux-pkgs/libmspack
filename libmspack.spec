@@ -4,7 +4,7 @@
 #
 Name     : libmspack
 Version  : 0.10.1alpha
-Release  : 12
+Release  : 13
 URL      : https://www.cabextract.org.uk/libmspack/libmspack-0.10.1alpha.tar.gz
 Source0  : https://www.cabextract.org.uk/libmspack/libmspack-0.10.1alpha.tar.gz
 Summary  : Compressors and decompressors for Microsoft formats
@@ -57,12 +57,12 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1604610977
+export SOURCE_DATE_EPOCH=1664933209
 export GCC_IGNORE_WERROR=1
-export CFLAGS="$CFLAGS -fno-lto -fstack-protector-strong -fzero-call-used-regs=used "
-export FCFLAGS="$FFLAGS -fno-lto -fstack-protector-strong -fzero-call-used-regs=used "
-export FFLAGS="$FFLAGS -fno-lto -fstack-protector-strong -fzero-call-used-regs=used "
-export CXXFLAGS="$CXXFLAGS -fno-lto -fstack-protector-strong -fzero-call-used-regs=used "
+export CFLAGS="$CFLAGS -fno-lto "
+export FCFLAGS="$FFLAGS -fno-lto "
+export FFLAGS="$FFLAGS -fno-lto "
+export CXXFLAGS="$CXXFLAGS -fno-lto "
 %configure --disable-static
 make  %{?_smp_mflags}
 
@@ -74,10 +74,10 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1604610977
+export SOURCE_DATE_EPOCH=1664933209
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/libmspack
-cp %{_builddir}/libmspack-0.10.1alpha/COPYING.LIB %{buildroot}/usr/share/package-licenses/libmspack/e60c2e780886f95df9c9ee36992b8edabec00bcc
+cp %{_builddir}/libmspack-%{version}/COPYING.LIB %{buildroot}/usr/share/package-licenses/libmspack/e60c2e780886f95df9c9ee36992b8edabec00bcc || :
 %make_install
 
 %files
